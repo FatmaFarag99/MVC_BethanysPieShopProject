@@ -3,6 +3,9 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
+
+    <h1 class="display-4">@localizer["Welcome"]</h1>
+    <p>@localizer["Learnabout"]<a href="https://docs.microsoft.com/aspnet/core">@localizer["Building"]</a>.</p>
 </div>
