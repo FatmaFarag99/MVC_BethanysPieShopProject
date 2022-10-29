@@ -9,6 +9,7 @@
         }
         public DbSet<Pie> Pies { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
 
 
@@ -50,7 +51,7 @@
                 CategoryId = 2,
                 ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/blueberrycheesecake.jpg",
                 InStock = true,
-                IsPieOfTheWeek = false,
+                IsPieOfTheWeek = true,
                 ImageThumbnailUrl =
                     "https://gillcleerenpluralsight.blob.core.windows.net/files/blueberrycheesecakesmall.jpg",
                 AllergyInformation = ""

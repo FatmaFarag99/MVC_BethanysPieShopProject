@@ -3,9 +3,22 @@
 }
 
 <div class="text-center">
-@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer localizer
+    @using Microsoft.AspNetCore.Mvc.Localization
+    @inject IViewLocalizer localizer
+    @model HomeViewModel
 
-    <h1 class="display-4">@localizer["Welcome"]</h1>
-    <p>@localizer["Learnabout"]<a href="https://docs.microsoft.com/aspnet/core">@localizer["Building"]</a>.</p>
+
+    <partial name="_Carousel" />
+
+    <h2>Pies of the week</h2>
+    <h4>Our weekly selection - just for you!</h4>
+
+    <div class="row">
+
+        @foreach (var pie in Model.PiesOfTheWeek)
+        {
+            <partial name="_PieCard" model="pie" />
+        }
+
+    </div>
 </div>

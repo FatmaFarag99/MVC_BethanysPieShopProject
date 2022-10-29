@@ -1,9 +1,11 @@
+using BethanysPieShopProject.Models;
 using BethanysPieShopProject.Models.Context;
 using BethanysPieShopProject.Models.Repositories;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Serilog;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,12 +37,30 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = supportedCultures;
 });
 
+//Logging
+Serilog.ILogger logger = new LoggerConfiguration()
+    .WriteTo.Seq("http://localhost:5341/")
+    .WriteTo.Map("Name", "log", (name, wt) =>
+    {
+        var date = DateTime.Now;
+        wt.File($"logs/{date.Year}/{date.Month}/{date.Day}/{date.Minute}/{name}.txt");
+    })
+    .CreateLogger();
+
+logger.Information($"Date : {DateTime.Now} ");
+builder.Host.UseSerilog(logger);
+
 
 builder.Services.AddScoped<IPieRepository, PieRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
 
 
 var app = builder.Build();
+
+Serilog.ILogger log = app.Services.GetRequiredService<Serilog.ILogger>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -52,6 +72,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 
