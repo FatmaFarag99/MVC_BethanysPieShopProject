@@ -11,7 +11,6 @@
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     <link href="~/Content/site.css" rel="stylesheet" />
 
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - BethanysPieShop</title>
@@ -88,9 +87,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="AddToShoppingCart">Cart</a>
                         </li>
-                        <li class="nav-item">
+
+                        @await Component.InvokeAsync("CategoryMenu")
                         @await Component.InvokeAsync("ShoppingCartSummary")
-                        </li>
                     </ul>
                 </div>
                 <div>
